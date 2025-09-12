@@ -1,0 +1,87 @@
+import express, { Request, Response, NextFunction } from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import rateLimit from 'express-rate-limit';
+import compression from 'compression';
+import morgan from 'morgan';
+import { StatusCodes } from 'http-status-codes';
+import Logger from './config/logger';
+import errorHandler from './middleware/errorHandler';
+import routes from './routes/index';
+
+const app = express();
+
+const allowedOrigins = process.env.ALLOWED_ORIGINS
+  ? process.env.ALLOWED_ORIGINS.split(',').map(o => o.trim())
+  : ['http://localhost:5173'];
+
+// Security Middleware
+app.use(helmet()); // Security headers
+
+// CORS configuration
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true); // allow requests with no origin (e.g., mobile apps)
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error(`Origin ${origin} not allowed by CORS`));
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+}));
+
+// Rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 1000, // limit each IP to requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+  handler: (req: Request, res: Response) => {
+    res.status(StatusCodes.TOO_MANY_REQUESTS).json({
+      error: 'Too many requests, please try again later',
+    });
+  },
+});
+app.use(limiter);
+
+
+
+// Body parsing
+app.use(express.json({ limit: '10mb' })); // OK for JSON
+app.use(express.urlencoded({ extended: true }));
+
+// Compression
+app.use(compression());
+
+// Logging
+app.use(
+  morgan('dev', {
+    stream: { write: (message: string) => Logger.http(message.trim()) },
+  })
+);
+
+// Health check endpoint
+app.get('/health', (req: Request, res: Response) => {
+  res.status(StatusCodes.OK).json({
+    status: 'healthy',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development',
+  });
+});
+
+// API Routes
+app.use('/', routes);
+
+// 404 Handler
+app.use((req: Request, res: Response) => {
+  res.status(StatusCodes.NOT_FOUND).json({
+    error: 'Endpoint not found',
+  });
+});
+
+// Global error handler
+app.use(errorHandler);
+
+export default app;
