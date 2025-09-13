@@ -191,10 +191,11 @@ const PostNews = () => {
   };
 
   const handleTagAdd = () => {
-    if (form.currentTag.trim() && !form.tags.includes(form.currentTag)) {
+    const tag = form.currentTag?.trim();
+    if (tag && !form.tags.includes(tag)) {
       setForm((prev) => ({
         ...prev,
-        tags: [...prev.tags, prev.currentTag.trim()],
+        tags: [...prev.tags, tag],
         currentTag: "",
       }));
     }
