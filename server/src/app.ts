@@ -36,7 +36,9 @@ app.use(cors({
 }));
 
 // Explicitly handle preflight OPTIONS everywhere
-app.options('*', cors());
+app.options('*', (req, res) => {
+  res.sendStatus(200);
+});
 
 
 // Rate limiting
