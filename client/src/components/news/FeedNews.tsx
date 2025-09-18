@@ -153,9 +153,15 @@ const FeedNews = ({
           {/* Left Sidebar Ad */}
           <div className="hidden lg:block w-64 flex-shrink-0">
             <div className="sticky top-24">
-              <AdSidebar />
+              <AdSidebar
+                imageUrl="/1561096817487.jpg"
+                linkUrl="https://pioneerfilmz.company.site"
+              />
               <div className="mt-4">
-                <AdSidebar />
+                <AdSidebar
+                  imageUrl="/logoChawala.webp"
+                  linkUrl="https://www.thechawlastandoorijunction.com"
+                />
               </div>
             </div>
           </div>
@@ -190,10 +196,16 @@ const FeedNews = ({
 
           {/* Right Sidebar Ad */}
           <div className="hidden lg:block w-64 flex-shrink-0">
-            <div className="sticky top-24">
-              <AdSidebar />
-              <div className="mt-4">
-                <AdSidebar />
+            <div className="sticky top-2">
+              <AdSidebar
+                imageUrl="/Lafitneess.webp"
+                linkUrl="https://arvlafitnesse.com"
+              />
+              <div className="mt-2">
+                <AdSidebar
+                  imageUrl="/ABStar.webp"
+                  linkUrl="https://abstarnews.com"
+                />
               </div>
             </div>
           </div>

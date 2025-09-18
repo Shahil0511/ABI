@@ -20,15 +20,15 @@ export const registerUser = async (
         error: error.details[0].message,
       });
       return;
-    }
+    }//
 
-    // Use validated data (not req.body directly)
+    // 
     const { name, email, password, role } = value as IUserCreate;
 
     // 2. Check if user already exists in database
     const db = MongoDB.getConnection();
     const usersCollection = db.collection<IUser>('users');
-    
+    // u squar 37 900 6 rose sefish yes sole
     const existingUser = await usersCollection.findOne({ 
       email: email.toLowerCase().trim() 
     });
@@ -184,7 +184,6 @@ next:NextFunction
       });
       return;
     }
-
      // 3. Compare passwords
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
