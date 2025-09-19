@@ -27,7 +27,7 @@ app.use(cors({
       return callback(null, true);
     }
 
-    // ❌ Don’t crash → respond with explicit rejection
+   
     return callback(null, false);
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
