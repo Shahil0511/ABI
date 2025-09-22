@@ -23,21 +23,10 @@ app.use(helmet()); // Security headers
 
 // CORS configuration
 app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin) return callback(null, true); // allow non-browser clients
-
-    if (allowedOrigins.includes(origin)) {
-      return callback(null, true);
-    }
-
-    console.warn(`❌ Blocked by CORS: ${origin}`);
-    return callback(null, false); // no headers → browser blocks cleanly
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  origin: true,
   credentials: true,
-  optionsSuccessStatus: 200, // important for legacy browsers
 }));
+
 
 
 
