@@ -12,20 +12,20 @@ import {
   ArrowLeft,
   User,
   MessageSquare,
-  Facebook,
-  Twitter,
-  Linkedin,
   Link as LinkIcon,
   Video,
   GalleryVertical,
   Headphones,
   FileText,
+  Facebook,
+  Linkedin,
+  Twitter,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getNewsById } from "../services/newsServices";
 import AdSidebar from "../components/advertisement/AdPlaceHolder";
 
-const FILE_BASE_URL = "http://localhost:5000/api/news/files";
+const FILE_BASE_URL = "https://abi-backend-zgtw.onrender.com/api/news/files";
 
 interface NewsArticle {
   _id: string;
