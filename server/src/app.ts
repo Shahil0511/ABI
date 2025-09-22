@@ -1,18 +1,12 @@
 import express, { Request, Response, NextFunction } from 'express';
-
 import cors from 'cors';
 import helmet from 'helmet';
-
 import rateLimit from 'express-rate-limit';
-
 import compression from 'compression';
-
 import morgan from 'morgan';
 import { StatusCodes } from 'http-status-codes';
-
 import Logger from './config/logger';
 import errorHandler from './middleware/errorHandler';
-
 import routes from './routes/index';
 
 
@@ -30,18 +24,21 @@ app.use(helmet()); // Security headers
 // CORS configuration
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin) return callback(null, true); // allow curl, mobile apps, etc.
+    if (!origin) return callback(null, true); // allow non-browser clients
 
     if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
 
-    return callback(new Error(`Origin ${origin} not allowed by CORS`));
+    console.warn(`❌ Blocked by CORS: ${origin}`);
+    return callback(null, false); // no headers → browser blocks cleanly
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
+  optionsSuccessStatus: 200, // important for legacy browsers
 }));
+
 
 
 // Explicitly handle preflight OPTIONS everywhere
