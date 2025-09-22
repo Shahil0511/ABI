@@ -36,13 +36,13 @@ app.use(cors({
       return callback(null, true);
     }
 
-   
-    return callback(null, false);
+    return callback(new Error(`Origin ${origin} not allowed by CORS`));
   },
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
 }));
+
 
 // Explicitly handle preflight OPTIONS everywhere
 app.options(/.*/, (req, res) => {
@@ -91,7 +91,7 @@ app.get('/health', (req: Request, res: Response) => {
 });
 
 // API Routes
-// app.use('/', routes);
+app.use('/', routes);
 
 // 404 Handler
 app.use((req: Request, res: Response) => {
