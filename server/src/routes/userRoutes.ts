@@ -9,10 +9,6 @@ import {
 import {
   loginUser,
   registerUser,
-  // loginUser,
-  // logoutUser,
-  // getCurrentUser
-
 } from '../controllers/userController';
 
 const router = Router();
@@ -23,7 +19,6 @@ router.post(
   apiRateLimit,
   validator(userCreateSchema),
   registerUser
-
 );
 
 router.post(
@@ -31,7 +26,6 @@ router.post(
   apiRateLimit,
   validator(userLoginSchema),
   loginUser
-
 );
 
 // Protected routes (require authentication)

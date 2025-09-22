@@ -1,13 +1,22 @@
 import express, { Request, Response, NextFunction } from 'express';
+
 import cors from 'cors';
 import helmet from 'helmet';
+
 import rateLimit from 'express-rate-limit';
+
 import compression from 'compression';
+
 import morgan from 'morgan';
 import { StatusCodes } from 'http-status-codes';
+
 import Logger from './config/logger';
 import errorHandler from './middleware/errorHandler';
+
 import routes from './routes/index';
+
+
+
 
 const app = express();
 
@@ -36,9 +45,10 @@ app.use(cors({
 }));
 
 // Explicitly handle preflight OPTIONS everywhere
-app.options('*', (req, res) => {
+app.options(/.*/, (req, res) => {
   res.sendStatus(200);
 });
+
 
 
 // Rate limiting
@@ -81,7 +91,7 @@ app.get('/health', (req: Request, res: Response) => {
 });
 
 // API Routes
-app.use('/', routes);
+// app.use('/', routes);
 
 // 404 Handler
 app.use((req: Request, res: Response) => {

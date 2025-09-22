@@ -4,7 +4,9 @@ import Logger from '../config/logger';
 import { asyncHandler } from '../middleware/asyncHandler';
 import { validator } from '../middleware/validator';
 import { healthCheckSchema } from '../middleware/system.validation';
+
 import { apiRateLimit } from '../config/rateLimit';
+
 import userRouter from "./userRoutes"
 import newsRouter from "../routes/newsRoutes"
 
