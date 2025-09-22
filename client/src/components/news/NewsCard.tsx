@@ -1,4 +1,4 @@
-const FILE_BASE_URL = "http://localhost:5000/api/news/files";
+const FILE_BASE_URL = "https://abi-backend-zgtw.onrender.com/api/news/files";
 
 import {
   Calendar,
